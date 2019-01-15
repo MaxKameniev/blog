@@ -1,28 +1,51 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { connect } from 'react-redux';
+import { fetchPostsAsync } from './redux/actions/getPostsAction';
+import Menu from './Menu/Menu';
+import Main from './Main/Main';
 import './App.css';
 
 class App extends Component {
+
+  state = {
+    id: ''
+  }
+
+  componentDidMount() {
+    this.props.fetchPostsAsync();
+  }
+
+  getId = (event) => {
+    let id = event.target.dataset.id;
+    this.setState({id: id});
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <div className="header">
+          <h1>BLOG</h1>
+          <Menu />
+        </div>
+        <Main getId={this.getId} id={this.state.id}/>
       </div>
     );
   }
 }
 
-export default App;
+function MSTP(state) {
+  return {
+      posts: state.posts
+  }
+}
+
+function MDTP(dispatch) {
+  return {
+      fetchPostsAsync: function () {
+          dispatch(fetchPostsAsync())
+      }
+  }
+}
+
+export default connect(MSTP, MDTP)(App);
+

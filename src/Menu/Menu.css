@@ -1,0 +1,13 @@
+.menu__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px 20px 0 0;
+}
+
+.menu__item {
+    margin-right: 10px;
+}
+
+.menu__item:hover {
+    text-decoration: underline;
+}
